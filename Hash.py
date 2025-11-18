@@ -47,15 +47,19 @@ def hashFunction(stringData):
 def handleCollision(insertionIndex, insertionTable):
     # Breaking here, "infinite loop"
     size = len(insertionTable)
+    collisions = 0
 
     while insertionTable[insertionIndex] != None:
+        # count number of collisions 
+        collisions += 1
+
         insertionIndex += 1
         # if index gets out of range, set to first spot
         if insertionIndex >= size:
             insertionIndex = 0
         
         
-    return insertionIndex
+    return insertionIndex, collisions
 
 def main():
     # variables for optimization analysis
@@ -82,15 +86,31 @@ def main():
             newItem = DataItem(row)
             # split information into appropriate dataitem fields
             # get a key from hash function
-            key = hashFunction(newItem.movie_name)
+            titleKey = hashFunction(newItem.movie_name)
+            quoteKey = hashFunction(newItem.quote)
             # hash function to spit out key, then:
-            insertionIndex = key % len(hashTitleTable)
-            # try to insert dataitem into hash table
-            if hashTitleTable[insertionIndex] != None:
-                # handle collisions
-                insertionIndex = handleCollision(insertionIndex, hashTitleTable)
-            # insert Item
-            hashTitleTable[insertionIndex] = newItem
+            titleInsertionIndex = titleKey % len(hashTitleTable)
+            quoteInsertionIndex = quoteKey % len(hashQuoteTable)
+            
+            # try to insert dataitem into hash title table
+            collisions = 0
+            if hashTitleTable[titleInsertionIndex] != None:
+                # handle Title collision
+                titleInsertionIndex, collisions = handleCollision(titleInsertionIndex, hashTitleTable)
+            # update title collisions
+            titleCollisions += collisions
+
+            # try to insert dataitem into has quote table
+            collisions = 0
+            if hashQuoteTable[quoteInsertionIndex] != None:
+                #handle quote collision
+                quoteInsertionIndex, collisions = handleCollision(quoteInsertionIndex, hashQuoteTable)
+            # insert Item into Title table
+            hashTitleTable[titleInsertionIndex] = newItem
+            # insert Item into Quote table
+            hashQuoteTable[quoteInsertionIndex] = newItem
+            # update quote collisions
+            quoteCollisions += collisions
 
             counter += 1
     print(counter)
