@@ -7,6 +7,11 @@
 #### NOTES ####
 # prime numbers can be helpful with splitting up the hash table placements
 # csv library to easily load in movie csv file
+# Start with linear probe
+# keep track of empty spots (first make it just decrease total empty spots as it adds)
+
+# location = key % len(list)
+# n[location] = DataItem
 
 # methods for avoiding collisions(data being placed in same spot in array hash table)
 # 1. keep a linked list in each array location
@@ -19,41 +24,58 @@ size = 1000
 hashTitleTable = [None] * size
 hashQuoteTable = [None] * size
 
-file = "MOCK_DATA.csv"
-counter = 0
-with open(file, 'r', newline='', encoding="utf8") as csvfile:
-    reader = csv.reader(csvfile)
-    # row is an array that has split each item for DataItem
-    for row in reader:
-        if counter == 0:
-            continue
-        # split information into appropriate dataitem fields
-        # get a key from hash function
-        # try to insert dataitem into hash table
-        # handle collisions
-        counter += 1
-print(counter)
-
 # create a class data item to hold movie info
 class DataItem:
-    def __init__(self, line):
-        self.movie_name
-        self.genre
-        self.release_date
-        self.director
-        self.revenue
-        self.rating
-        self.min_duration
-        self.production_company
-        self.quote
-
-# hash function to spit out key, then:
-# location = key % len(list)
-# n[location] = DataItem
+    def __init__(self, row):
+        self.movie_name = row[0]
+        self.genre = row[1]
+        self.release_date = row[2]
+        self.director = row[3]
+        self.revenue = row[4]
+        self.rating = row[5]
+        self.min_duration = row[6]
+        self.production_company = row[7]
+        self.quote = row[8]
 
 def hashFunction(stringData):
+    # LATER: maybe try to use division by prime number and using remainder for key
+    strLength = len(stringData)
+    key = strLength * 20
     # returns key
-    pass
+    return key
 
-def handleCollision():
-    pass
+def handleCollision(insertionIndex):
+    while hashTitleTable[insertionIndex] != None:
+        # Breaking here, "list index out of range"
+        insertionIndex +=1
+
+    return insertionIndex
+
+def main():
+    file = "MOCK_DATA.csv"
+    counter = 0
+    with open(file, 'r', newline='', encoding="utf8") as csvfile:
+        reader = csv.reader(csvfile)
+        # row is an array that has split each item for DataItem
+        for row in reader:
+            if counter == 0:
+                counter += 1
+                continue
+            newItem = DataItem(row)
+            # split information into appropriate dataitem fields
+            # get a key from hash function
+            key = hashFunction(newItem.movie_name)
+            # hash function to spit out key, then:
+            insertionIndex = key % len(hashTitleTable)
+            # try to insert dataitem into hash table
+            if hashTitleTable[insertionIndex] != None:
+                # handle collisions
+                insertionIndex = handleCollision(insertionIndex)
+            # insert Item
+            hashTitleTable[insertionIndex] = newItem
+
+            counter += 1
+    print(counter)
+
+if __name__ == "__main__":
+    main()
