@@ -113,7 +113,21 @@ def main():
             quoteCollisions += collisions
 
             counter += 1
-    print(counter)
+
+    for i in range(len(hashQuoteTable)):
+        if hashQuoteTable[i] == None:
+            emptyQuotes += 1
+
+    for i in range(len(hashTitleTable)):
+        if hashTitleTable[i] == None:
+            emptyTitles += 1
+
+    # print end analytics
+    print(f"Counter: {counter}\n")
+    # hashTitle analytics
+    print(f"Title Table Collisions: {titleCollisions}\nTitle Table Empty Indexes: {emptyTitles}\n")
+    # hashQuotes analytics
+    print(f"Quote Table Collisions: {quoteCollisions}\nQuote Table Empty Indexes: {emptyQuotes}\n")
 
 if __name__ == "__main__":
     main()
