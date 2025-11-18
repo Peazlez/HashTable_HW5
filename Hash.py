@@ -20,7 +20,7 @@
 
 import csv
 
-size = 1000
+size = 15001
 hashTitleTable = [None] * size
 hashQuoteTable = [None] * size
 
@@ -40,18 +40,36 @@ class DataItem:
 def hashFunction(stringData):
     # LATER: maybe try to use division by prime number and using remainder for key
     strLength = len(stringData)
-    key = strLength * 20
+    key = strLength * 2
     # returns key
     return key
 
-def handleCollision(insertionIndex):
-    while hashTitleTable[insertionIndex] != None:
-        # Breaking here, "list index out of range"
-        insertionIndex +=1
+def handleCollision(insertionIndex, insertionTable):
+    # Breaking here, "infinite loop"
+    size = len(insertionTable)
 
+    while insertionTable[insertionIndex] != None:
+        insertionIndex += 1
+        # if index gets out of range, set to first spot
+        if insertionIndex >= size:
+            insertionIndex = 0
+        
+        
     return insertionIndex
 
 def main():
+    # variables for optimization analysis
+
+    # Collisions
+    titleCollisions = 0
+    quoteCollisions = 0
+
+    # empty spots in each array
+    emptyTitles = 0
+    emptyQuotes = 0
+
+    # time for each construction as well
+
     file = "MOCK_DATA.csv"
     counter = 0
     with open(file, 'r', newline='', encoding="utf8") as csvfile:
@@ -70,7 +88,7 @@ def main():
             # try to insert dataitem into hash table
             if hashTitleTable[insertionIndex] != None:
                 # handle collisions
-                insertionIndex = handleCollision(insertionIndex)
+                insertionIndex = handleCollision(insertionIndex, hashTitleTable)
             # insert Item
             hashTitleTable[insertionIndex] = newItem
 
