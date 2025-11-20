@@ -22,8 +22,9 @@
 # 2a. searching for something that isnt in the list will go on until it reaches the end of the list or hits an empty spot
 
 import csv
+import time
 
-size = 15000
+size = 30000
 hashTitleTable = [None] * size
 hashQuoteTable = [None] * size
 
@@ -42,13 +43,16 @@ class DataItem:
 
 def hashFunction(stringData):
     # LATER: maybe try to use division by prime number and using remainder for key
-    strLength = len(stringData)
-    key = strLength * 2
+    # LATER: try using ASCII values
+    # strLength = len(stringData)
+    # key = strLength * 2
+    key = 0
+    for letter in stringData:
+        key = key * 7 + ord(letter)
     # returns key
     return key
 
 def handleCollision(insertionIndex, insertionTable):
-    # Breaking here, "infinite loop"
     size = len(insertionTable)
     collisions = 0
 
@@ -65,6 +69,7 @@ def handleCollision(insertionIndex, insertionTable):
     return insertionIndex, collisions
 
 def main():
+    start_time = time.time()
     # variables for optimization analysis
 
     # Collisions
@@ -117,16 +122,17 @@ def main():
 
             counter += 1
 
+    # should change the range to size variable when that gets changed over to auto read size of movie list
     for i in range(len(hashQuoteTable)):
         if hashQuoteTable[i] == None:
             emptyQuotes += 1
-
-    for i in range(len(hashTitleTable)):
         if hashTitleTable[i] == None:
             emptyTitles += 1
 
-    # print end analytics
-    print(f"Counter: {counter}\n")
+    total_time = (time.time()-start_time)
+        
+    # print Time analytics
+    print(f"Total Time: {total_time:.2f} seconds\n")
     # hashTitle analytics
     print(f"Title Table Collisions: {titleCollisions}\nTitle Table Empty Indexes: {emptyTitles}\n")
     # hashQuotes analytics
