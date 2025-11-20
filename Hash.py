@@ -8,7 +8,10 @@
 # prime numbers can be helpful with splitting up the hash table placements
 # csv library to easily load in movie csv file
 # Start with linear probe
-# keep track of empty spots (first make it just decrease total empty spots as it adds)
+# keep track of empty spots (first make it just decrease total empty spots as it adds) 
+
+# change hashing methods, jump ahead for collision by prime numbers
+# change size to work with any sized input file
 
 # location = key % len(list)
 # n[location] = DataItem
@@ -20,7 +23,7 @@
 
 import csv
 
-size = 15001
+size = 15000
 hashTitleTable = [None] * size
 hashQuoteTable = [None] * size
 
