@@ -17,3 +17,11 @@ Second Optimization (Linked Lists)
 The second optimization attempt was creating a linked list method of inserting values to the table.  In this attempt, instead of linearly searching for an available open spot in the list, I placed data items into buckets with a .next property.  The inserted item would travel through the chain of .nexts until finding an empty spot and inserting itself there.  This cut down on time slightly but more importantly cut down on the amount of overall collisions.  A lot of empty index spaces, though that is due to my hard coded list size.
 
 <img width="270" height="119" alt="Screenshot 2025-11-23 124653" src="https://github.com/user-attachments/assets/1cd3e996-8a25-44ff-8126-e4fac65b8244" />
+
+Third Optimization (Hashing update, Array size change):
+
+This attempt changed the hashing function to a larger prime number with an overflow mod number.  This in addition to the array size being 1.5X bigger than the exact necessary amount increases the overall optimization a fair bit.  The larger the array, the less collisions and quicker it completes.  This also comes at a cost for empty indexes as well obviously.  The linked list method has contributed dramatically to the number of empty indexes which makes sense.  That will be the next area to optimize.
+
+<img width="266" height="125" alt="Screenshot 2025-11-23 140207" src="https://github.com/user-attachments/assets/894c72bb-3c2b-478f-80fa-dc748b3e2033" />
+
+Fourth Optimization (Maybe do something with table size?)
