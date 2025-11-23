@@ -21,6 +21,10 @@
 # 2. linear probe, if it cant be placed in "correct spot" look at next spot, so on
 # 2a. searching for something that isnt in the list will go on until it reaches the end of the list or hits an empty spot
 
+# create node class that holds dataItem and a .next variable
+# maybe make a list class as well that looks keeps track of the last node item
+# check csv for length to see if you can generate the size of the data without hard coding it in
+
 import csv
 import time
 
@@ -43,7 +47,6 @@ class DataItem:
 
 def hashFunction(stringData):
     # LATER: maybe try to use division by prime number and using remainder for key
-    # LATER: try using ASCII values
     # strLength = len(stringData)
     # key = strLength * 2
     key = 0
@@ -52,6 +55,7 @@ def hashFunction(stringData):
     # returns key
     return key
 
+# linear probing method
 def handleCollision(insertionIndex, insertionTable):
     size = len(insertionTable)
     collisions = 0
@@ -68,7 +72,18 @@ def handleCollision(insertionIndex, insertionTable):
         
     return insertionIndex, collisions
 
+# linked list method
+def handleLinkedCollision(newItem, insertionIndex, insertionTable):
+    collisions = 1
+
+    # insert to linked list if collision detected
+    insertionTable[insertionIndex.append(newItem)]
+
+    # return collisions counter for incrementor (not really necessary, can increment outside)
+    return collisions
+
 def main():
+    # start timer
     start_time = time.time()
     # variables for optimization analysis
 
@@ -79,8 +94,6 @@ def main():
     # empty spots in each array
     emptyTitles = 0
     emptyQuotes = 0
-
-    # time for each construction as well
 
     file = "MOCK_DATA.csv"
     counter = 0
@@ -129,6 +142,7 @@ def main():
         if hashTitleTable[i] == None:
             emptyTitles += 1
 
+    # end timer
     total_time = (time.time()-start_time)
         
     # print Time analytics
