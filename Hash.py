@@ -28,10 +28,6 @@
 import csv
 import time
 
-size = 30000
-hashTitleTable = [None] * size
-hashQuoteTable = [None] * size
-
 # create a class data item to hold movie info
 class DataItem:
     def __init__(self, row):
@@ -56,8 +52,12 @@ def hashFunction(stringData):
     # strLength = len(stringData)
     # key = strLength * 2
     key = 0
+    primeNum = 31
+    # large modulus prime number to avoid overflow
+    modNum = 10**9 + 9
+
     for letter in stringData:
-        key = key * 7 + ord(letter)
+        key = (key * primeNum + ord(letter)) % modNum
     # returns key
     return key
 
@@ -74,8 +74,7 @@ def handleCollision(insertionIndex, insertionTable):
         # if index gets out of range, set to first spot
         if insertionIndex >= size:
             insertionIndex = 0
-        
-        
+         
     return insertionIndex, collisions
 
 # linked list method
@@ -99,17 +98,24 @@ def main():
     # start timer
     start_time = time.time()
     # variables for optimization analysis
+    numRows = 0
+    file = "MOCK_DATA.csv"
+    with open(file, 'r', newline='', encoding="utf8") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            numRows += 1
+    tableSize = int(numRows * 1.5)
+    hashTitleTable = [None] * tableSize
+    hashQuoteTable = [None] * tableSize
 
     # Collisions
     titleCollisions = 0
     quoteCollisions = 0
-
     # empty spots in each array
     emptyTitles = 0
     emptyQuotes = 0
-
-    file = "MOCK_DATA.csv"
     counter = 0
+    
     with open(file, 'r', newline='', encoding="utf8") as csvfile:
         reader = csv.reader(csvfile)
         # row is an array that has split each item for DataItem
@@ -117,13 +123,17 @@ def main():
             if counter == 0:
                 counter += 1
                 continue
+            # split information into appropriate dataitem fields
             newItem = DataItem(row)
+            # Add datitem to buckets (linked list method)
             titleBucket = DataBucket(newItem)
             quoteBucket = DataBucket(newItem)
-            # split information into appropriate dataitem fields
+            # standardize strings
+            movieName = newItem.movie_name.lower().strip()
+            movieQuote = newItem.quote.lower().strip()
             # get a key from hash function
-            titleKey = hashFunction(newItem.movie_name)
-            quoteKey = hashFunction(newItem.quote)
+            titleKey = hashFunction(movieName)
+            quoteKey = hashFunction(movieQuote)
             # hash function to spit out key, then:
             titleInsertionIndex = titleKey % len(hashTitleTable)
             quoteInsertionIndex = quoteKey % len(hashQuoteTable)
@@ -151,7 +161,6 @@ def main():
                 # insert Item into Quote table
                 hashQuoteTable[quoteInsertionIndex] = quoteBucket
             
-
             counter += 1
 
     # should change the range to size variable when that gets changed over to auto read size of movie list
