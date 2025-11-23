@@ -45,6 +45,12 @@ class DataItem:
         self.production_company = row[7]
         self.quote = row[8]
 
+# create class to hold dataitem and a .next property for linked list usage
+class DataBucket:
+    def __init__(self, item: DataItem):
+        self.item = item
+        self.next = None
+
 def hashFunction(stringData):
     # LATER: maybe try to use division by prime number and using remainder for key
     # strLength = len(stringData)
@@ -73,13 +79,20 @@ def handleCollision(insertionIndex, insertionTable):
     return insertionIndex, collisions
 
 # linked list method
-def handleLinkedCollision(newItem, insertionIndex, insertionTable):
-    collisions = 1
+def handleLinkedCollision(newBucket, insertionIndex, insertionTable):
+    collisions = 0
+    curBucket = insertionTable[insertionIndex]
 
-    # insert to linked list if collision detected
-    insertionTable[insertionIndex.append(newItem)]
+    # traverse to proper bucket
+    while curBucket.next != None:
+        curBucket = curBucket.next
+        # update collisions
+        collisions += 1 
 
-    # return collisions counter for incrementor (not really necessary, can increment outside)
+    # insert to linked list (set curbucket.next = to newBucket)
+    curBucket.next = newBucket
+    
+    # return collisions counter for incrementor
     return collisions
 
 def main():
@@ -105,6 +118,8 @@ def main():
                 counter += 1
                 continue
             newItem = DataItem(row)
+            titleBucket = DataBucket(newItem)
+            quoteBucket = DataBucket(newItem)
             # split information into appropriate dataitem fields
             # get a key from hash function
             titleKey = hashFunction(newItem.movie_name)
@@ -117,21 +132,25 @@ def main():
             collisions = 0
             if hashTitleTable[titleInsertionIndex] != None:
                 # handle Title collision
-                titleInsertionIndex, collisions = handleCollision(titleInsertionIndex, hashTitleTable)
-            # update title collisions
-            titleCollisions += collisions
+                collisions = handleLinkedCollision(titleBucket, titleInsertionIndex, hashTitleTable)
+                # update title collisions
+                titleCollisions += collisions
+
+            else:
+                # insert Item into Title table
+                hashTitleTable[titleInsertionIndex] = titleBucket
 
             # try to insert dataitem into has quote table
             collisions = 0
             if hashQuoteTable[quoteInsertionIndex] != None:
                 #handle quote collision
-                quoteInsertionIndex, collisions = handleCollision(quoteInsertionIndex, hashQuoteTable)
-            # insert Item into Title table
-            hashTitleTable[titleInsertionIndex] = newItem
-            # insert Item into Quote table
-            hashQuoteTable[quoteInsertionIndex] = newItem
-            # update quote collisions
-            quoteCollisions += collisions
+                collisions = handleLinkedCollision(quoteBucket, quoteInsertionIndex, hashQuoteTable)
+                # update quote collisions
+                quoteCollisions += collisions
+            else:
+                # insert Item into Quote table
+                hashQuoteTable[quoteInsertionIndex] = quoteBucket
+            
 
             counter += 1
 
