@@ -29,6 +29,7 @@
 
 import csv
 import time
+import math
 
 # create a class data item to hold movie info
 class DataItem:
@@ -54,6 +55,25 @@ class BucketList:
     def __init__(self, bucket: DataBucket):
         self.head = bucket
         self.end = bucket
+
+def is_prime(n):
+    # check if given number is prime
+    if n < 2:
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def find_next_prime(start_num):
+    # finds next prime number bigger than starting number
+    num = start_num + 1
+    while True:
+        if is_prime(num):
+            print(f"The next prime number after {start_num} is {num}")
+            return num
+        num += 1
+    
 
 # hashing function using ASCII values and prime number
 def hashFunction(stringData):
@@ -121,8 +141,9 @@ def main():
     # remove header from number of rows
     numRows -= 1
     # create tables
-    tableSize = int(numRows * 2)
+    targetSize = int(numRows * 1.5)
     # find next largest prime number
+    tableSize = find_next_prime(targetSize)
 
     hashTitleTable = [None] * tableSize
     hashQuoteTable = [None] * tableSize
