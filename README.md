@@ -25,8 +25,10 @@ This attempt changed the hashing function to a larger prime number with an overf
 
 <img width="324" height="153" alt="Screenshot 2025-11-25 100341" src="https://github.com/user-attachments/assets/ae7f2458-d01c-41d9-84e3-079d04f80187" />
 
-Fourth Optimization (Added BucketList to track "head" and "end" of list)
+Fourth Optimization (Added BucketList to track "head" and "end" of list):
 
 This attempt worked towards lowering the amount of collisions from the previous method (incrementing curBucket.next till we find an empty space).  In this method I created another class that keeps track of the beginning and end of the linked list.  This way I can skip straight to the end of the list without having to linearly use the .next property. This cut down a fair amount of collisions as are seen in the image below.  For the final optimization, I need to focus on cuttind down the size of the tables as they are still exceptionally large.
 
 <img width="340" height="161" alt="Screenshot 2025-11-25 100716" src="https://github.com/user-attachments/assets/068b3c6d-fd8b-49dc-8a1a-1abc352493b4" />
+
+Fifth Optimization (Change Array size to large Prime number based off number of rows):
