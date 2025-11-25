@@ -25,6 +25,8 @@
 # maybe make a list class as well that looks keeps track of the last node item
 # check csv for length to see if you can generate the size of the data without hard coding it in
 
+# double array size, next largest prime number for table size
+
 import csv
 import time
 
@@ -101,9 +103,9 @@ def handleLinkedCollision(newBucket, insertionIndex, insertionTable):
 def handleBucketListCollision(newBucket, insertionIndex, insertionTable):
 
     # add newBucket to end of Bucket list
-    curBucket = insertionTable[insertionIndex].end
-    curBucket.next = newBucket
-    curBucket.end = newBucket
+    bucketList = insertionTable[insertionIndex]
+    bucketList.end.next = newBucket
+    bucketList.end = newBucket
 
 def main():
     # start timer
