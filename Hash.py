@@ -47,10 +47,14 @@ class DataBucket:
         self.item = item
         self.next = None
 
+# create class that keeps track of last item in each linked list?
+class BucketList:
+    def __init__(self, bucket: DataBucket):
+        self.head = bucket
+        self.end = bucket
+
+# hashing function using ASCII values and prime number
 def hashFunction(stringData):
-    # LATER: maybe try to use division by prime number and using remainder for key
-    # strLength = len(stringData)
-    # key = strLength * 2
     key = 0
     primeNum = 31
     # large modulus prime number to avoid overflow
@@ -61,7 +65,7 @@ def hashFunction(stringData):
     # returns key
     return key
 
-# linear probing method
+# linear probing collision method
 def handleCollision(insertionIndex, insertionTable):
     size = len(insertionTable)
     collisions = 0
@@ -77,9 +81,9 @@ def handleCollision(insertionIndex, insertionTable):
          
     return insertionIndex, collisions
 
-# linked list method
+# linked list collision method
 def handleLinkedCollision(newBucket, insertionIndex, insertionTable):
-    collisions = 0
+    collisions = 1
     curBucket = insertionTable[insertionIndex]
 
     # traverse to proper bucket
@@ -94,6 +98,13 @@ def handleLinkedCollision(newBucket, insertionIndex, insertionTable):
     # return collisions counter for incrementor
     return collisions
 
+def handleBucketListCollision(newBucket, insertionIndex, insertionTable):
+
+    # add newBucket to end of Bucket list
+    curBucket = insertionTable[insertionIndex].end
+    curBucket.next = newBucket
+    curBucket.end = newBucket
+
 def main():
     # start timer
     start_time = time.time()
@@ -104,6 +115,10 @@ def main():
         reader = csv.reader(csvfile)
         for row in reader:
             numRows += 1
+
+    # remove header from number of rows
+    numRows -= 1
+    # create tables
     tableSize = int(numRows * 1.5)
     hashTitleTable = [None] * tableSize
     hashQuoteTable = [None] * tableSize
@@ -142,23 +157,28 @@ def main():
             collisions = 0
             if hashTitleTable[titleInsertionIndex] != None:
                 # handle Title collision
+                # handleBucketListCollision(titleBucket, titleInsertionIndex, hashTitleTable)
                 collisions = handleLinkedCollision(titleBucket, titleInsertionIndex, hashTitleTable)
                 # update title collisions
                 titleCollisions += collisions
 
             else:
                 # insert Item into Title table
+                # newBucketTitleList = BucketList(titleBucket)
+                #hashTitleTable[titleInsertionIndex] = newBucketTitleList
                 hashTitleTable[titleInsertionIndex] = titleBucket
 
             # try to insert dataitem into has quote table
-            collisions = 0
             if hashQuoteTable[quoteInsertionIndex] != None:
                 #handle quote collision
+                #handleBucketListCollision(quoteBucket, quoteInsertionIndex, hashQuoteTable)
                 collisions = handleLinkedCollision(quoteBucket, quoteInsertionIndex, hashQuoteTable)
                 # update quote collisions
                 quoteCollisions += collisions
             else:
                 # insert Item into Quote table
+                #newBucketQuoteList = BucketList(quoteBucket)
+                #hashQuoteTable[quoteInsertionIndex] = newBucketQuoteList
                 hashQuoteTable[quoteInsertionIndex] = quoteBucket
             
             counter += 1
