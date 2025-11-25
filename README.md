@@ -22,6 +22,6 @@ Third Optimization (Hashing update, Array size change):
 
 This attempt changed the hashing function to a larger prime number with an overflow mod number.  This in addition to the array size being 1.5X bigger than the exact necessary amount increases the overall optimization a fair bit.  The larger the array, the less collisions and quicker it completes.  This also comes at a cost for empty indexes as well obviously.  The linked list method has contributed dramatically to the number of empty indexes which makes sense.  That will be the next area to optimize.
 
-<img width="266" height="125" alt="Screenshot 2025-11-23 140207" src="https://github.com/user-attachments/assets/894c72bb-3c2b-478f-80fa-dc748b3e2033" />
+<img width="323" height="128" alt="Screenshot 2025-11-25 100025" src="https://github.com/user-attachments/assets/2fd3b4d8-0ef8-4e89-a130-e214601f3bce" />
 
 Fourth Optimization (Maybe do something with table size?)
