@@ -83,7 +83,7 @@ def handleCollision(insertionIndex, insertionTable):
 
 # linked list collision method
 def handleLinkedCollision(newBucket, insertionIndex, insertionTable):
-    collisions = 1
+    collisions = 0
     curBucket = insertionTable[insertionIndex]
 
     # traverse to proper bucket
@@ -154,32 +154,27 @@ def main():
             quoteInsertionIndex = quoteKey % len(hashQuoteTable)
             
             # try to insert dataitem into hash title table
-            collisions = 0
             if hashTitleTable[titleInsertionIndex] != None:
                 # handle Title collision
-                # handleBucketListCollision(titleBucket, titleInsertionIndex, hashTitleTable)
-                collisions = handleLinkedCollision(titleBucket, titleInsertionIndex, hashTitleTable)
+                handleBucketListCollision(titleBucket, titleInsertionIndex, hashTitleTable)
                 # update title collisions
-                titleCollisions += collisions
+                titleCollisions += 1
 
             else:
                 # insert Item into Title table
-                # newBucketTitleList = BucketList(titleBucket)
-                #hashTitleTable[titleInsertionIndex] = newBucketTitleList
-                hashTitleTable[titleInsertionIndex] = titleBucket
+                newBucketTitleList = BucketList(titleBucket)
+                hashTitleTable[titleInsertionIndex] = newBucketTitleList
 
             # try to insert dataitem into has quote table
             if hashQuoteTable[quoteInsertionIndex] != None:
                 #handle quote collision
-                #handleBucketListCollision(quoteBucket, quoteInsertionIndex, hashQuoteTable)
-                collisions = handleLinkedCollision(quoteBucket, quoteInsertionIndex, hashQuoteTable)
+                handleBucketListCollision(quoteBucket, quoteInsertionIndex, hashQuoteTable)
                 # update quote collisions
-                quoteCollisions += collisions
+                quoteCollisions += 1
             else:
                 # insert Item into Quote table
-                #newBucketQuoteList = BucketList(quoteBucket)
-                #hashQuoteTable[quoteInsertionIndex] = newBucketQuoteList
-                hashQuoteTable[quoteInsertionIndex] = quoteBucket
+                newBucketQuoteList = BucketList(quoteBucket)
+                hashQuoteTable[quoteInsertionIndex] = newBucketQuoteList
             
             counter += 1
 
