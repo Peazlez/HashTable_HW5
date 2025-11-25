@@ -32,3 +32,7 @@ This attempt worked towards lowering the amount of collisions from the previous 
 <img width="340" height="161" alt="Screenshot 2025-11-25 100716" src="https://github.com/user-attachments/assets/068b3c6d-fd8b-49dc-8a1a-1abc352493b4" />
 
 Fifth Optimization (Change Array size to large Prime number based off number of rows):
+
+This final optimization attempt was aimed toward cutting down the overall table size while trying to keep the collisions roughly the same.  I used a function to find the next smallest prime number (also tried next highest) based on my number of rows in the read in csv file.  This cut down my wasted array space by over half what it originally was.  When I tried the next highest prime it did cut down slightly but not very much.  Implementing this also allowed me to stop multiplying the table size by 1.5X which also helped to keep the overall size down.  For very large table sizes this should cause no problems but could definitely cause issues with smaller tables.
+
+<img width="252" height="122" alt="Screenshot 2025-11-25 150414" src="https://github.com/user-attachments/assets/e92bdf97-8e98-4b2d-b9b5-ae205a065581" />
