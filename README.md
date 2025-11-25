@@ -13,6 +13,7 @@ Much Better than first draft in terms of time and total number of collisions.  I
 <img width="350" height="159" alt="Screenshot 2025-11-20 103554" src="https://github.com/user-attachments/assets/1a7945e2-bbc2-452b-accd-50b7928d42ef" />
 
 Second Optimization (Linked Lists)
+(NOTE: Collisions are skewed for this attempt as I was not incrementing the collisions properly, they should be roughly in the low 10,000 range)
 
 The second optimization attempt was creating a linked list method of inserting values to the table.  In this attempt, instead of linearly searching for an available open spot in the list, I placed data items into buckets with a .next property.  The inserted item would travel through the chain of .nexts until finding an empty spot and inserting itself there.  This cut down on time slightly but more importantly cut down on the amount of overall collisions.  A lot of empty index spaces, though that is due to my hard coded list size.
 
@@ -22,6 +23,6 @@ Third Optimization (Hashing update, Array size change):
 
 This attempt changed the hashing function to a larger prime number with an overflow mod number.  This in addition to the array size being 1.5X bigger than the exact necessary amount increases the overall optimization a fair bit.  The larger the array, the less collisions and quicker it completes.  This also comes at a cost for empty indexes as well obviously.  The linked list method has contributed dramatically to the number of empty indexes which makes sense.  That will be the next area to optimize.
 
-<img width="266" height="125" alt="Screenshot 2025-11-23 140207" src="https://github.com/user-attachments/assets/894c72bb-3c2b-478f-80fa-dc748b3e2033" />
+<img width="324" height="153" alt="Screenshot 2025-11-25 100341" src="https://github.com/user-attachments/assets/ae7f2458-d01c-41d9-84e3-079d04f80187" />
 
 Fourth Optimization (Maybe do something with table size?)
