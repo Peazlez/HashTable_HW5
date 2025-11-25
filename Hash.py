@@ -13,9 +13,6 @@
 # change hashing methods, jump ahead for collision by prime numbers
 # change size to work with any sized input file
 
-# location = key % len(list)
-# n[location] = DataItem
-
 # methods for avoiding collisions(data being placed in same spot in array hash table)
 # 1. keep a linked list in each array location
 # 2. linear probe, if it cant be placed in "correct spot" look at next spot, so on
@@ -25,7 +22,7 @@
 # maybe make a list class as well that looks keeps track of the last node item
 # check csv for length to see if you can generate the size of the data without hard coding it in
 
-# double array size, next largest prime number for table size
+# double array size, next largest/smallest prime number for table size
 
 import csv
 import time
@@ -56,6 +53,7 @@ class BucketList:
         self.head = bucket
         self.end = bucket
 
+# helper function for determining prime number
 def is_prime(n):
     # check if given number is prime
     if n < 2:
@@ -65,6 +63,7 @@ def is_prime(n):
             return False
     return True
 
+# helper function for finding next prime
 def find_next_prime(start_num):
     # finds next prime number bigger than starting number
     num = start_num
