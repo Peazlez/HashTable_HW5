@@ -121,7 +121,9 @@ def main():
     # remove header from number of rows
     numRows -= 1
     # create tables
-    tableSize = int(numRows * 1.5)
+    tableSize = int(numRows * 2)
+    # find next largest prime number
+
     hashTitleTable = [None] * tableSize
     hashQuoteTable = [None] * tableSize
 
