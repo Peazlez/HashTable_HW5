@@ -67,12 +67,12 @@ def is_prime(n):
 
 def find_next_prime(start_num):
     # finds next prime number bigger than starting number
-    num = start_num + 1
-    while True:
+    num = start_num
+    while num > 1:
         if is_prime(num):
-            print(f"The next prime number after {start_num} is {num}")
+            print(f"The previous prime number before or equal to {start_num} is {num}")
             return num
-        num += 1
+        num -= 1
     
 
 # hashing function using ASCII values and prime number
@@ -141,7 +141,7 @@ def main():
     # remove header from number of rows
     numRows -= 1
     # create tables
-    targetSize = int(numRows * 1.5)
+    targetSize = int(numRows)
     # find next largest prime number
     tableSize = find_next_prime(targetSize)
 
