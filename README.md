@@ -13,6 +13,7 @@ Much Better than first draft in terms of time and total number of collisions.  I
 <img width="350" height="159" alt="Screenshot 2025-11-20 103554" src="https://github.com/user-attachments/assets/1a7945e2-bbc2-452b-accd-50b7928d42ef" />
 
 Second Optimization (Linked Lists)
+(NOTE: Collisions are skewed for this attempt as I was not incrementing the collisions properly, they should be roughly in the low 10,000 range)
 
 The second optimization attempt was creating a linked list method of inserting values to the table.  In this attempt, instead of linearly searching for an available open spot in the list, I placed data items into buckets with a .next property.  The inserted item would travel through the chain of .nexts until finding an empty spot and inserting itself there.  This cut down on time slightly but more importantly cut down on the amount of overall collisions.  A lot of empty index spaces, though that is due to my hard coded list size.
 
